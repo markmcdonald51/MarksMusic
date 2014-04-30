@@ -1,0 +1,75 @@
+i would like to select my favorite genres
+
+i would like to find things happening in my area specific to these genres
+
+i would like to tell my friends that i am doing this (email/announce)
+
+i would like to search for new places and add my favorite places that i go to 
+
+            see what my frinds are doing this evening
+            
+            
+            
+class Band name:string 
+  has_many :members
+
+  has_many :genre_classification
+  has_many :genres, :through => :genre_classification
+
+
+rails g scaffold Group name:string closed:boolean created_by:references 
+rails g model GroupMember group:references person:references position:integer description:string  
+
+rails g model GroupGenre group:references genre:references 
+
+rails g scaffold Event title:string description:text addmission_charge:decimal started_at:datetime expired_at:datetime group:references venue:references
+
+ rails g scaffold Venue name:string phone:string email:string contact_name:string  description:text
+ 
+ rails g scaffold Person first_name:string last_name:string email:string phone:string skype:string  description:text
+ 
+ rails g model Schedule ice_cube_rule:text event:references
+rails g model Occurrence started_at:datetime expired_at:datetime generated:boolean canceled_at:datetime
+ 
+class Event addmission_charge:decimal date:datetime 
+  belongs_to: group
+  belongs_to: venue
+ 
+  has_many :schedules
+  has_many :occurrences
+  attr_accessible :started_at, :expired_at # expired_at is optional
+ 
+class Person
+  belongs_to :band
+  belongs_to :user
+  
+class Venue name:string
+  has_one :location
+  has_many :events
+  has_many genres, :through => :events
+  
+#######################################################
+http://stackoverflow.com/questions/10148960/recurring-events-in-calendar-rails
+
+# Holds most of my event's data; name, description, price ...
+class Event < ActiveRecord::Base
+  has_many :schedules
+  has_many :occurrences
+  attr_accessible :started_at, :expired_at # expired_at is optional
+end
+
+# Holds my schedule object
+class Schedule < ActiveRecord::Base
+  belongs_to :event
+  attr_accessible :ice_cube_rule # which returns my deserialized ice_cube object
+end
+
+
+# Holds generated or manually created event occurrences 
+class Occurrence < ActiveRecord::Base
+  belongs_to :event 
+  attr_accessible :started_at, :expired_at
+  attr_accessible :generated # helps me tell which occurrences are out of an ice_cube generated serie
+  attr_accessible :canceled_at
+end
+  

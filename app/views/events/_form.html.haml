@@ -1,0 +1,28 @@
+= semantic_form_for @event do |f|
+  - if @event.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@event.errors.count, "error")} prohibited this event from being saved:"
+      %ul
+        - @event.errors.full_messages.each do |msg|
+          %li= msg
+          
+  .row
+    .large-6.columns
+      .row
+        .large-12.columns
+          = f.input :title
+          = f.input :description
+
+    .large-6.columns
+      .row 
+        = f.input :addmission_charge
+        = f.select_recurring :schedule
+  
+        = f.input  :started_at, label: 'Start on date', as: :string, 
+          :input_html => {:class => 'date_picker', placeholder: "click to see calendar"}
+        
+        = #f.input :expired_at
+
+        = f.actions do 
+          = f.action :submit, :as => :button
+          = f.action :cancel, :as => :link  

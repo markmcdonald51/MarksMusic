@@ -1,0 +1,27 @@
+%p#notice= notice
+
+%p
+  %b Title:
+  = @event.title
+%p
+  %b Description:
+  = @event.description
+%p
+  %b Addmission charge:
+  = @event.addmission_charge
+%p
+  %b Started at:
+  = @event.started_at
+%p
+  %b Expired at:
+  = @event.expired_at
+%p
+  %b Group:
+  = @event.group
+%p
+  %b Venue:
+  = @event.venue
+
+= link_to 'Edit', edit_event_path(@event)
+\|
+= link_to 'Back', events_path

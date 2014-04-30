@@ -1,0 +1,25 @@
+= semantic_form_for @group do |f|
+  - if @group.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@group.errors.count, 
+        "error")} prohibited this group from being saved:"
+        
+      %ul
+        - @group.errors.full_messages.each do |msg|
+          %li= msg         
+          
+  .row
+    .large-6.columns
+      .row
+        .large-12.columns
+          = f.input :name
+          = f.input :description
+          
+    .large-6.columns
+      .row       
+        = f.input :genres, name: 'Genres', label: 'Genres',
+            :collection => Genre.all, for: :group_genres
+     
+        = f.actions do 
+          = f.action :submit, :as => :button
+          = f.action :cancel, :as => :link  

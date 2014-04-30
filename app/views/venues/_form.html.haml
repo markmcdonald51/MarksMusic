@@ -1,0 +1,48 @@
+= semantic_form_for @venue do |f|
+  - if @venue.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@venue.errors.count, "error")} prohibited this venue from being saved:"
+      %ul
+        - @venue.errors.full_messages.each do |msg|
+          %li= msg
+
+  .row
+    .large-6.columns
+      = f.inputs  name: "Basic Venue Data" do 
+        .row
+          .large-8.columns
+            = f.input :name,  :input_html => {placeholder: "Name Of Venue"} 
+          .large-4.columns
+            = f.input :phone, :input_html => { :size => 10 }
+           
+            
+        .row
+          .large-6.columns    
+            = f.input :email
+          .large-6.columns
+            = f.input :contact_name, placeholder: "If known"
+        
+        = f.input :description, 
+          :input_html => {placeholder: "Please add as much data as you like.",
+          :class => 'autogrow', :rows => 10, :cols => 20 }
+  
+    .large-6.columns
+      - @venue.build_location if @venue.location.blank?
+      = f.inputs name: 'Location', label: 'Location', for: :location do |l|
+        .row
+          .large-8.columns
+            
+            = l.input :address_one
+          .large-4.columns
+            = l.input  :postal_code
+          = l.input  :address_two, 
+            :input_html => {placeholder: 'Optional: use for suite, floor or other necessary information' }
+          
+                          
+      = f.actions do 
+        = f.action :submit, :as => :button
+        = f.action :cancel, :as => :link  
+     
+ 
+         
+
